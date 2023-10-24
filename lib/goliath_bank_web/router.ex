@@ -7,6 +7,7 @@ defmodule GoliathBankWeb.Router do
 
   scope "/api", GoliathBankWeb do
     pipe_through :api
+    resources "/users", UsersController, only: [:index, :create, :update, :delete, :show]
   end
 
   # Enable LiveDashboard in development
