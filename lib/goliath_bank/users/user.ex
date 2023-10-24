@@ -2,9 +2,8 @@ defmodule GoliathBank.Users.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @cast_fields     ~w[cpf first_name last_name password]a
-  @required_fields ~w[cpf first_name password]a
-  @excluded_fields ~w[id first_name last_name cpf inserted_at updated_at]a
+  @fields     ~w[cpf first_name last_name password]a
+  @excluded_fields ~w[id cpf inserted_at updated_at]a
 
   @derive {Jason.Encoder, except: @excluded_fields}
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -20,9 +19,16 @@ defmodule GoliathBank.Users.User do
 
   def changeset(user \\ %__MODULE__{}, attrs) do
     user
-    |> cast(attrs, @cast_fields)
-    |> validate_required(@required_fields)
+    |> cast(attrs, @fields)
+    |> validate_required(@fields)
     |> unique_constraint(:cpf)
     |> validate_length(:cpf, is: 11)
+    |> add_password_hash()
   end
+
+  defp add_password_hash(%Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset) do
+    change(changeset, Argon2.add_hash(password))
+  end
+
+  defp add_password_hash(changeset), do: changeset
 end
