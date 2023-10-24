@@ -129,4 +129,44 @@ defmodule GoliathBankWeb.UsersControllerTest do
       assert %{"message" => "User not found in database!", "status" => "not_found"} = response
     end
   end
+
+  describe "update/2" do
+    test "successfully updates a user's information", %{conn: conn} do
+      params = %{
+        first_name: "Fulano",
+        last_name: "de Tal",
+        cpf: "23456789001",
+        password: "qwerty"
+      }
+
+      {:ok, user} = Users.create(params)
+
+      updated_params = %{
+        first_name: "Novo Nome",
+        last_name: "Novo Sobrenome"
+      }
+
+      response =
+        conn
+        |> put("/api/users/#{user.id}", updated_params)
+        |> json_response(:ok)
+
+      assert %{"data" => %{"id" => _id, "cpf" => "23456789001", "first_name" => "Novo Nome", "last_name" => "Novo Sobrenome"}} = response
+    end
+
+    test "returns an error when trying to update a non-existent user", %{conn: conn} do
+      non_existent_user_id = 999
+      updated_params = %{
+        first_name: "Novo Nome",
+        last_name: "Novo Sobrenome"
+      }
+
+      response =
+        conn
+        |> put("/api/users/#{non_existent_user_id}", updated_params)
+        |> json_response(:not_found)
+
+      assert  %{"message" => "User not found in database!", "status" => "not_found"} = response
+    end
+  end
 end
