@@ -3,10 +3,9 @@ defmodule GoliathBank.Users.User do
   import Ecto.Changeset
 
   @fields     ~w[cpf first_name last_name password]a
-  @excluded_fields ~w[id cpf inserted_at updated_at]a
+  @excluded_fields [:__meta__, :password, :password_hash, :inserted_at, :updated_at]
 
   @derive {Jason.Encoder, except: @excluded_fields}
-  @primary_key {:id, :binary_id, autogenerate: true}
   schema "users" do
     field :first_name, :string
     field :last_name, :string
