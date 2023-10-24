@@ -2,6 +2,7 @@ defmodule GoliathBankWeb.UsersControllerTest do
   use GoliathBankWeb.ConnCase
 
   alias GoliathBank.Users
+  alias Users.User
 
   describe "create/2" do
     test "successfully creates an user", %{conn: conn} do
@@ -38,7 +39,32 @@ defmodule GoliathBankWeb.UsersControllerTest do
         |> post(~p"/api/users", params)
         |> json_response(:bad_request)
 
-        assert %{"errors" => %{"cpf" => ["should be 11 character(s)"]}} = response
+      assert %{"errors" => %{"cpf" => ["should be 11 character(s)"]}} = response
+    end
+  end
+
+  describe "delete/1" do
+    test "test if a user has been deleted", %{conn: conn} do
+      params = %{
+        first_name: "Fulano",
+        last_name: "de Tal",
+        cpf: "23456789001",
+        password: "qwerty"
+      }
+
+      {:ok, %User{id: id}} = Users.create(params)
+
+      response =
+        conn
+        |> delete(~p"/api/users/#{id}", params)
+        |> json_response(:ok)
+
+        assert %{"data" => %{
+          "id" => id,
+          "first_name" => "Fulano",
+          "last_name" => "de Tal",
+          "cpf" => "23456789001"
+        }} = response
     end
   end
 
