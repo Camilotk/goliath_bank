@@ -2,6 +2,8 @@ defmodule GoliathBank.Users.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias GoliathBank.Accounts.Account
+
   @fields          ~w[cpf first_name last_name password]a
   @update_fields   ~w[cpf first_name last_name]a
   @excluded_fields [:__meta__, :password, :password_hash, :inserted_at, :updated_at]
@@ -13,7 +15,7 @@ defmodule GoliathBank.Users.User do
     field :password, :string, virtual: true
     field :password_hash, :string
     field :cpf, :string
-
+    has_one :account, Account
     timestamps()
   end
   def changeset(user \\ %__MODULE__{}, attrs)
