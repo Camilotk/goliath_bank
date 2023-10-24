@@ -86,7 +86,6 @@ defmodule GoliathBankWeb.UsersControllerTest do
         password: "qwerty"
       }
 
-      # Create a user using the Users module
       {:ok, user} = Users.create(params)
 
       response =
@@ -94,10 +93,40 @@ defmodule GoliathBankWeb.UsersControllerTest do
         |> get("/api/users")
         |> json_response(:ok)
 
-      # Assert that the response contains the inserted user
       assert %{"data" => [
                           %{"id" => _id, "cpf" => "23456789001", "first_name" => "Fulano", "last_name" => "de Tal"}
                         ]} = response
+    end
+  end
+
+  describe "show/1" do
+    test "returns a specific user with success", %{conn: conn} do
+      params = %{
+        first_name: "Fulano",
+        last_name: "de Tal",
+        cpf: "23456789001",
+        password: "qwerty"
+      }
+
+      {:ok, user} = Users.create(params)
+
+      response =
+        conn
+        |> get("/api/users/#{user.id}")
+        |> json_response(:ok)
+
+      assert %{"data" => %{"id" => _id, "cpf" => "23456789001", "first_name" => "Fulano", "last_name" => "de Tal"}} = response
+    end
+
+    test "returns an error when user is not found", %{conn: conn} do
+      non_existent_user_id = 999
+
+      response =
+        conn
+        |> get("/api/users/#{non_existent_user_id}")
+        |> json_response(:not_found)
+
+      assert %{"message" => "User not found in database!", "status" => "not_found"} = response
     end
   end
 end
