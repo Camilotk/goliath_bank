@@ -14,6 +14,23 @@ defmodule GoliathBankWeb.UsersController do
     end
   end
 
+  def delete(conn, %{"id" => id}) do
+    with {:ok, %User{} = user} <- Users.delete(id) do
+      conn
+      |> put_status(:ok)
+      |> render(:delete, user: user)
+    end
+  end
+
+  def index(conn, _params) do
+    case Users.list() do
+      {:ok, users} ->
+        conn
+        |> put_status(:ok)
+        |> render(:index, users: users)
+    end
+  end
+
   def show(conn, %{"id" => id}) do
     with {:ok, %User{} = user} <- Users.get(id) do
       conn
