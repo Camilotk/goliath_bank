@@ -2,7 +2,8 @@ defmodule GoliathBank.Users.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @fields     ~w[cpf first_name last_name password]a
+  @fields          ~w[cpf first_name last_name password]a
+  @update_fields   ~w[cpf first_name last_name]a
   @excluded_fields [:__meta__, :password, :password_hash, :inserted_at, :updated_at]
 
   @derive {Jason.Encoder, except: @excluded_fields}
@@ -15,11 +16,20 @@ defmodule GoliathBank.Users.User do
 
     timestamps()
   end
-
-  def changeset(user \\ %__MODULE__{}, attrs) do
+  def changeset(user \\ %__MODULE__{}, attrs)
+  def changeset(%__MODULE__{id: nil} = user, attrs) do
     user
     |> cast(attrs, @fields)
     |> validate_required(@fields)
+    |> unique_constraint(:cpf)
+    |> validate_length(:cpf, is: 11)
+    |> add_password_hash()
+  end
+
+  def changeset(user, attrs) do
+    user
+    |> cast(attrs, @fields)
+    |> validate_required(@update_fields)
     |> unique_constraint(:cpf)
     |> validate_length(:cpf, is: 11)
     |> add_password_hash()

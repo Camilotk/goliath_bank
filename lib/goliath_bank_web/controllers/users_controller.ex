@@ -21,4 +21,12 @@ defmodule GoliathBankWeb.UsersController do
       |> render(:get, user: user)
     end
   end
+
+  def update(conn, params) do
+    with {:ok, %User{} = user} <- Users.update(params) do
+      conn
+      |> put_status(:ok)
+      |> render(:update, user: user)
+    end
+  end
 end
