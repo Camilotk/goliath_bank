@@ -4,9 +4,9 @@ defmodule GoliathBank.Accounts.Account do
 
   alias GoliathBank.Users.User
 
-  @fields ~w[balance user_id]a
+  @required_params ~w[balance user_id]a
 
-  @derive {Jason.Encoder, except: [:__meta__]}
+  @derive {Jason.Encoder, only: [:user_id, :balance]}
   schema "accounts" do
     field :balance, :decimal
     belongs_to :user, User
@@ -16,8 +16,8 @@ defmodule GoliathBank.Accounts.Account do
 
   def changeset(account \\ %__MODULE__{}, params) do
     account
-    |> cast(params, @fields)
-    |> validate_required(@fields)
+    |> cast(params, @required_params)
+    |> validate_required(@required_params)
     |> check_constraint(:balance, name: :balance_must_be_positive)
   end
 end
