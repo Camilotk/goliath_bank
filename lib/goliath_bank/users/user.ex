@@ -6,7 +6,7 @@ defmodule GoliathBank.Users.User do
 
   @fields          ~w[cpf first_name last_name password]a
   @update_fields   ~w[cpf first_name last_name]a
-  @excluded_fields [:__meta__, :password, :password_hash, :inserted_at, :updated_at]
+  @excluded_fields [:__meta__, :password, :password_hash, :account, :inserted_at, :updated_at]
 
   @derive {Jason.Encoder, except: @excluded_fields}
   schema "users" do
@@ -16,6 +16,7 @@ defmodule GoliathBank.Users.User do
     field :password_hash, :string
     field :cpf, :string
     has_one :account, Account
+
     timestamps()
   end
   def changeset(user \\ %__MODULE__{}, attrs)
