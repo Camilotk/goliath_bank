@@ -6,4 +6,6 @@ defmodule GoliathBankWeb.TransactionsJSON do
       receiver: transaction.receiver_id
     }
   end
+
+  def search(%{transactions: transactions}), do: transactions
 end
