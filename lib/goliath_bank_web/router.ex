@@ -9,6 +9,7 @@ defmodule GoliathBankWeb.Router do
     pipe_through :api
     resources "/users", UsersController, only: [:index, :create, :update, :delete, :show]
     post "/accounts", AccountsController, :create
+    post "/transactions", TransactionsController, :create
   end
 
   # Enable LiveDashboard in development
