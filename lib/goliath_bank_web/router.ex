@@ -11,6 +11,7 @@ defmodule GoliathBankWeb.Router do
     post "/accounts", AccountsController, :create
     get "/accounts/balance/:id", AccountsController, :show
     post "/transactions", TransactionsController, :create
+    get "/transactions/:start_date/:end_date", TransactionsController, :search
   end
 
   # Enable LiveDashboard in development
