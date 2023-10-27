@@ -22,7 +22,7 @@ Goliath National Bank (membro FDIC)
 
 ## Testando a API
 
-A API recebeu deploy em: [xxx](xxx)
+A API recebeu deploy em: [https://goliathnationalbank.fly.dev/api/](https://goliathnationalbank.fly.dev/api/)
 
 ## Endpoints Abertos
 
