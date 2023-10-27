@@ -4,4 +4,5 @@ defmodule GoliathBankWeb.UsersJSON do
   def get(%{user: user}), do: %{data: user}
   def index(%{users: users}), do: %{data: users}
   def update(%{user: user}), do: %{data: user}
+  def login(%{token: token}), do: %{bearer_token: token}
 end

@@ -5,9 +5,21 @@ defmodule GoliathBankWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug GoliathBankWeb.Plugs.Auth
+  end
+
   scope "/api", GoliathBankWeb do
     pipe_through :api
-    resources "/users", UsersController, only: [:index, :create, :update, :delete, :show]
+
+    post "/users", UsersController, :create
+    post "/users/login", UsersController, :login
+  end
+
+  scope "/api", GoliathBankWeb do
+    pipe_through [:api, :auth]
+
+    resources "/users", UsersController, only: [:index, :update, :delete, :show]
     post "/accounts", AccountsController, :create
     get "/accounts/balance/:id", AccountsController, :show
     post "/transactions", TransactionsController, :create
