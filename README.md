@@ -41,7 +41,7 @@ A API recebeu deploy em: [xxx](xxx)
     "first_name": "Barney",
     "last_name": "Stinson",
     "password": "legendary",
-    "cpf": "00468857060"
+    "cpf": "10284420093"
 }
 ```
 
