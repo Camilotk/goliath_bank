@@ -9,9 +9,9 @@ defmodule GoliathBank.Users.Verify do
     end
   end
 
-  defp verify(password, %User{password_hash: password_hash}) do
+  defp verify(password, %User{password_hash: password_hash} = user) do
     if Argon2.verify_pass(password, password_hash) do
-      {:ok, :password_valid}
+      {:ok, user}
     else
       {:error, :unauthorized}
     end
