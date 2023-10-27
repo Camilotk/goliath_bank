@@ -24,7 +24,7 @@ Goliath National Bank (membro FDIC)
 
 A API recebeu deploy em: [xxx](xxx)
 
-## Endpoints
+## Endpoints Abertos
 
 ### Criar um Usuário 
 
@@ -46,6 +46,27 @@ A API recebeu deploy em: [xxx](xxx)
 ```
 
 </details>
+
+### Login 
+
+<details>
+
+**Verbo HTTP**: POST
+
+**URL**: `localhost:4000/api/users/login`
+
+**Descrição**: Loga o um usuário, retorna o Token. 
+
+```json
+{
+    "id": 8,
+    "password": "legendary"
+}
+```
+
+</details>
+
+## Endpoints Protegidos
 
 ### Busca um Usuário
 
