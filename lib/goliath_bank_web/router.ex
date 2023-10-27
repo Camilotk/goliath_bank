@@ -8,6 +8,7 @@ defmodule GoliathBankWeb.Router do
   scope "/api", GoliathBankWeb do
     pipe_through :api
     resources "/users", UsersController, only: [:index, :create, :update, :delete, :show]
+    post "/users/login", UsersController, :login
     post "/accounts", AccountsController, :create
     get "/accounts/balance/:id", AccountsController, :show
     post "/transactions", TransactionsController, :create
