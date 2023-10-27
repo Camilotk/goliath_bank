@@ -1,6 +1,7 @@
 defmodule GoliathBankWeb.UsersController do
   use GoliathBankWeb, :controller
 
+  alias GoliathBankWeb.Token
   alias GoliathBank.Users
   alias Users.User
 
@@ -19,6 +20,15 @@ defmodule GoliathBankWeb.UsersController do
       conn
       |> put_status(:ok)
       |> render(:delete, user: user)
+    end
+  end
+
+  def login(conn, params) do
+    with {:ok, %User{} = user} <- Users.login(params) do
+      token = Token.sign(user)
+      conn
+      |> put_status(:ok)
+      |> render(:login, token: token)
     end
   end
 
