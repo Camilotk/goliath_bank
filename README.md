@@ -19,3 +19,20 @@ Então, se você quer fazer parte dessa equipe vencedora, se você quer ter uma 
 
 Goliath National Bank (membro FDIC)
 </p>
+
+## Testando a API
+
+A API recebeu deploy em: [xxx](xxx)
+
+## Rodando o Projeto Local
+
+Clonar esse repositório, instalar o PostgreSQL e fazer as configurações de comunicação em `config/dev.exs` e então rodar:
+``` 
+$ mix do setup, phx.server
+```
+E então o servidor vai iniciar em [http://localhost:4000/api](http://localhost:4000/api) e então acessar algum dos endpoints como na doc passando as informações necessárias.
+
+Para rodar os testes:
+``` 
+$ mix test
+```
