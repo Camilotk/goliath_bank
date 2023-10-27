@@ -10,6 +10,10 @@ defmodule GoliathBankWeb.ErrorJSONTest do
   test "renders 500" do
     changeset = User.changeset(%{cpf: "1234"})
     assert GoliathBankWeb.ErrorJSON.error(%{changeset: changeset}) ==
-      %{errors: %{cpf: ["should be 11 character(s)"], first_name: ["can't be blank"], last_name: ["can't be blank"], password: ["can't be blank"]}}
+      %{errors: %{
+                  cpf: ["CPF is invalid","should be 11 character(s)"],
+                  first_name: ["can't be blank"],
+                  last_name: ["can't be blank"],
+                  password: ["can't be blank"]}}
   end
 end

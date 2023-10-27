@@ -7,9 +7,9 @@ defmodule GoliathBankWeb.UsersControllerTest do
   describe "create/2" do
     test "successfully creates an user", %{conn: conn} do
       params = %{
-        first_name: "Fulano",
-        last_name: "de Tal",
-        cpf: "23456789001",
+        first_name: "Kristof",
+        last_name: "Doppelganger",
+        cpf: "48244118075",
         password: "qwerty"
       }
 
@@ -20,9 +20,9 @@ defmodule GoliathBankWeb.UsersControllerTest do
 
       assert %{"data" => %{
                             "id" => _id,
-                            "first_name" => "Fulano",
-                            "last_name" => "de Tal",
-                            "cpf" => "23456789001"
+                            "first_name" => "Kristof",
+                            "last_name" => "Doppelganger",
+                            "cpf" => "48244118075"
                           }, "message" => "Created with success!"} = response
     end
 
@@ -39,16 +39,16 @@ defmodule GoliathBankWeb.UsersControllerTest do
         |> post(~p"/api/users", params)
         |> json_response(:bad_request)
 
-      assert %{"errors" => %{"cpf" => ["should be 11 character(s)"]}} = response
+      assert %{"errors" => %{"cpf" => ["CPF is invalid", "should be 11 character(s)"]}} = response
     end
   end
 
   describe "delete/1" do
     test "test if a user has been deleted", %{conn: conn} do
       params = %{
-        first_name: "Fulano",
-        last_name: "de Tal",
-        cpf: "23456789001",
+        first_name: "Keyser",
+        last_name: "Soze",
+        cpf: "02987502010",
         password: "qwerty"
       }
 
@@ -61,9 +61,9 @@ defmodule GoliathBankWeb.UsersControllerTest do
 
         assert %{"data" => %{
           "id" => id,
-          "first_name" => "Fulano",
-          "last_name" => "de Tal",
-          "cpf" => "23456789001"
+          "first_name" => "Keyser",
+          "last_name" => "Soze",
+          "cpf" => "02987502010"
         }} = response
     end
   end
@@ -80,9 +80,9 @@ defmodule GoliathBankWeb.UsersControllerTest do
 
     test "test if the inserted user is coming in the listing", %{conn: conn} do
       params = %{
-        first_name: "Fulano",
-        last_name: "de Tal",
-        cpf: "23456789001",
+        first_name: "Barney",
+        last_name: "Westside",
+        cpf: "11704366097",
         password: "qwerty"
       }
 
@@ -94,7 +94,7 @@ defmodule GoliathBankWeb.UsersControllerTest do
         |> json_response(:ok)
 
       assert %{"data" => [
-                          %{"id" => _id, "cpf" => "23456789001", "first_name" => "Fulano", "last_name" => "de Tal"}
+                          %{"id" => _id, "cpf" => "11704366097", "first_name" => "Barney", "last_name" => "Westside"}
                         ]} = response
     end
   end
@@ -102,9 +102,9 @@ defmodule GoliathBankWeb.UsersControllerTest do
   describe "show/1" do
     test "returns a specific user with success", %{conn: conn} do
       params = %{
-        first_name: "Fulano",
-        last_name: "de Tal",
-        cpf: "23456789001",
+        first_name: "Bob",
+        last_name: "Swarley-man",
+        cpf: "93929389002",
         password: "qwerty"
       }
 
@@ -115,7 +115,7 @@ defmodule GoliathBankWeb.UsersControllerTest do
         |> get("/api/users/#{user.id}")
         |> json_response(:ok)
 
-      assert %{"data" => %{"id" => _id, "cpf" => "23456789001", "first_name" => "Fulano", "last_name" => "de Tal"}} = response
+      assert %{"data" => %{"id" => _id, "cpf" => "93929389002", "first_name" => "Bob", "last_name" => "Swarley-man"}} = response
     end
 
     test "returns an error when user is not found", %{conn: conn} do
@@ -133,9 +133,9 @@ defmodule GoliathBankWeb.UsersControllerTest do
   describe "update/2" do
     test "successfully updates a user's information", %{conn: conn} do
       params = %{
-        first_name: "Fulano",
-        last_name: "de Tal",
-        cpf: "23456789001",
+        first_name: "Barack",
+        last_name: "Obama Jr.",
+        cpf: "58592320046",
         password: "qwerty"
       }
 
@@ -151,7 +151,7 @@ defmodule GoliathBankWeb.UsersControllerTest do
         |> put("/api/users/#{user.id}", updated_params)
         |> json_response(:ok)
 
-      assert %{"data" => %{"id" => _id, "cpf" => "23456789001", "first_name" => "Novo Nome", "last_name" => "Novo Sobrenome"}} = response
+      assert %{"data" => %{"id" => _id, "cpf" => "58592320046", "first_name" => "Novo Nome", "last_name" => "Novo Sobrenome"}} = response
     end
 
     test "returns an error when trying to update a non-existent user", %{conn: conn} do
