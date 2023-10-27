@@ -24,6 +24,146 @@ Goliath National Bank (membro FDIC)
 
 A API recebeu deploy em: [xxx](xxx)
 
+## Endpoints
+
+### Criar um Usuário 
+
+<details>
+
+**Verbo HTTP**: POST
+
+**URL**: `localhost:4000/api/users`
+
+**Descrição**: Cria um usuário. 
+
+```json
+{
+    "first_name": "Barney",
+    "last_name": "Stinson",
+    "password": "legendary",
+    "cpf": "10284420093"
+}
+```
+
+</details>
+
+### Busca um Usuário
+
+<details>
+
+**Verbo HTTP**: GET
+
+**URL**: `localhost:4000/api/users/9`
+
+**Descrição**: Busca um usuário pelo ID.
+
+</details>
+
+### Edita um Usuário
+
+<details>
+
+**Verbo HTTP**: PUT
+
+**URL**: `localhost:4000/api/users/8`
+
+**Descrição**: Edita a informação do usuário especificado. 
+
+```json
+{
+    "first_name": "Jim",
+    "last_name": "Nacho"
+}
+```
+
+</details>
+
+### Deleta um Usuário
+
+<details>
+
+**Verbo HTTP**: DELETE
+
+**URL**: `localhost:4000/api/users/8`
+
+**Descrição**: Deleta um usuário pelo ID.
+
+</details>
+
+### Lista todos os Usuários
+
+<details>
+
+**Verbo HTTP**: GET
+
+**URL**: `localhost:4000/api/users/`
+
+**Description**: Recebe uma lista de todos os usuários cadastrados.
+
+</details>
+
+### Cria uma Conta
+
+<details>
+
+**Verbo HTTP**: POST
+
+**URL**: `localhost:4000/api/accounts`
+
+**Descrição**: Cria uma conta para o usuário passado com o saldo inicial passado. 
+
+```json
+{
+	"user_id": 5,
+	"balance": 2894.12
+}
+```
+
+</details>
+
+### Recebe o Saldo de uma Conta
+
+<details>
+
+**Verbo HTTP**: GET
+
+**URL**: `localhost:4000/api/accounts/balance/2`
+
+**Descrição**: Retorna o saldo de uma conta.
+
+</details>
+
+### Cria uma Transação entre Contas
+
+<details>
+
+**Verbo HTTP**: POST
+
+**URL**: `localhost:4000/api/transactions`
+
+**Descrição**: Create a transaction with the following JSON data in the request body:
+
+```json
+{
+    "sender_id": 2,
+    "receiver_id": 3,
+    "amount": 123.67
+}
+```
+</details>
+
+### Lista Transações entre Datas
+
+<details>
+
+**Verbo HTTP**: GET
+
+**URL**: `localhost:4000/api/transactions/2023-10-01/2023-10-31`
+
+**Descrição**: Retorna todas as transações feitas entre a data inicial e a final.
+
+</details>
+
 ## Rodando o Projeto Local
 
 Clonar esse repositório, instalar o PostgreSQL e fazer as configurações de comunicação em `config/dev.exs` e então rodar:
