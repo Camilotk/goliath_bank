@@ -53,9 +53,11 @@ defmodule GoliathBankWeb.UsersControllerTest do
       }
 
       {:ok, %User{id: id}} = Users.create(params)
+      token = GoliathBankWeb.Token.sign(%{id: id})
 
       response =
         conn
+        |> put_req_header("authorization", "Bearer " <> token)
         |> delete(~p"/api/users/#{id}", params)
         |> json_response(:ok)
 
@@ -70,8 +72,10 @@ defmodule GoliathBankWeb.UsersControllerTest do
 
   describe "list/0" do
     test "test if it returns a list with success", %{conn: conn} do
+      token = GoliathBankWeb.Token.sign(%{id: 1})
       response =
         conn
+        |> put_req_header("authorization", "Bearer " <> token)
         |> get(~p"/api/users")
         |> json_response(:ok)
 
@@ -87,9 +91,11 @@ defmodule GoliathBankWeb.UsersControllerTest do
       }
 
       {:ok, user} = Users.create(params)
+      token = GoliathBankWeb.Token.sign(%{id: user.id})
 
       response =
         conn
+        |> put_req_header("authorization", "Bearer " <> token)
         |> get("/api/users")
         |> json_response(:ok)
 
@@ -109,9 +115,11 @@ defmodule GoliathBankWeb.UsersControllerTest do
       }
 
       {:ok, user} = Users.create(params)
+      token = GoliathBankWeb.Token.sign(%{id: user.id})
 
       response =
         conn
+        |> put_req_header("authorization", "Bearer " <> token)
         |> get("/api/users/#{user.id}")
         |> json_response(:ok)
 
@@ -120,9 +128,11 @@ defmodule GoliathBankWeb.UsersControllerTest do
 
     test "returns an error when user is not found", %{conn: conn} do
       non_existent_user_id = 999
+      token = GoliathBankWeb.Token.sign(%{id: 1})
 
       response =
         conn
+        |> put_req_header("authorization", "Bearer " <> token)
         |> get("/api/users/#{non_existent_user_id}")
         |> json_response(:not_found)
 
@@ -140,6 +150,7 @@ defmodule GoliathBankWeb.UsersControllerTest do
       }
 
       {:ok, user} = Users.create(params)
+      token = GoliathBankWeb.Token.sign(%{id: user.id})
 
       updated_params = %{
         first_name: "Novo Nome",
@@ -148,6 +159,7 @@ defmodule GoliathBankWeb.UsersControllerTest do
 
       response =
         conn
+        |> put_req_header("authorization", "Bearer " <> token)
         |> put("/api/users/#{user.id}", updated_params)
         |> json_response(:ok)
 
@@ -156,6 +168,8 @@ defmodule GoliathBankWeb.UsersControllerTest do
 
     test "returns an error when trying to update a non-existent user", %{conn: conn} do
       non_existent_user_id = 999
+      token = GoliathBankWeb.Token.sign(%{id: 1})
+
       updated_params = %{
         first_name: "Novo Nome",
         last_name: "Novo Sobrenome"
@@ -163,6 +177,7 @@ defmodule GoliathBankWeb.UsersControllerTest do
 
       response =
         conn
+        |> put_req_header("authorization", "Bearer " <> token)
         |> put("/api/users/#{non_existent_user_id}", updated_params)
         |> json_response(:not_found)
 
